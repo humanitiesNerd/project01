@@ -6,8 +6,9 @@
                   [org.clojure/clojure       "1.7.0"]
                   [org.clojure/clojurescript "1.7.228"]
                   [tailrecursion/boot-jetty  "0.1.3"]
-                  
-                  [exicon/semantic-ui "2.1.4-SNAPSHOT"]]
+                  [cljsjs/boot-cljsjs "0.5.0" ]
+                  [exicon/semantic-ui "2.1.4-SNAPSHOT"]
+]
   :source-paths #{"src"}
   :asset-paths  #{"assets"})
 
@@ -15,14 +16,18 @@
   '[adzerk.boot-cljs         :refer [cljs]]
   '[adzerk.boot-reload       :refer [reload]]
   '[hoplon.boot-hoplon       :refer [hoplon prerender]]
-  '[tailrecursion.boot-jetty :refer [serve]])
+  '[tailrecursion.boot-jetty :refer [serve]]
+  '[cljsjs.boot-cljsjs :refer [from-cljsjs]])
 
 (deftask dev
   "Build project01 for local development."
   []
   (comp
     (watch)
-    (speak)
+    ;(speak)
+    (from-cljsjs :profile :development)
+    (sift :to-resource #{#"semantic-ui.inc.css"})
+    (sift :move {#"^semantic-ui.inc.css$" "semantic-ui.css"})
     (hoplon)
     (reload)
     (cljs)

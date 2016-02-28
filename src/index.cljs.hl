@@ -1,7 +1,9 @@
-(page "index.html")
+(page "index.html"
+      (:require [exicon.semantic-ui :as semantic]))
 
 (html
   (head
-    (link :href "app.css" :rel "stylesheet"))
+   (link :href "app.css" :rel "stylesheet")
+   )
   (body
     (h1 "Hello, Hoplon!")))
