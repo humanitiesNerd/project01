@@ -1,9 +1,113 @@
 (page "index.html"
-      (:require [exicon.semantic-ui :as semantic]))
+      (:require [exicon.semantic-ui :as semantic]
+                [project0.semanticdatetimepicker :as picking]
+                )
+      )
+
+(def route (route-cell "#/home/"))
+
+(with-page-load (.. js/window -location reload))
+
+
+(defn get-hash [link] (subs link (.indexOf link "#")))
+(defn active? [link route]
+  (let [h (get-hash link)]
+    (= h (subs route 0 (count h)))))
+
+(defc dimmer-state false)
+
+
+(defc= body-classes
+  {:dimmable dimmer-state
+   :scrolling dimmer-state
+   :dimmed dimmer-state})
+
+(defc= body-styles
+  (if dimmer-state
+    {:height "300px"}
+    {:height nil}
+    )
+  )
+
+
+(defelem viewport [attr kids]
+  (html-meta :name "viewport"
+             :content (first kids)))
+
+(defn setup []
+  [(viewport "width=device-width, initial-scale=1.0")
+   (html-meta
+     :content "https://twitter.com/catonano"
+     :name "author")])
 
 (html
+  :lang "it"
   (head
-   (link :href "app.css" :rel "stylesheet")
-   )
-  (body
-    (h1 "Hello, Hoplon!")))
+    (html-meta :charset "utf-8")
+    (setup)
+    (title "Project01")
+    (link :href "/semantic-ui.css" :rel "stylesheet"))
+
+  (body :class body-classes :css body-styles
+    (div       
+      (noscript
+        (div (str "This page uses JavaScript "
+                  "but it looks like you have it turned off.")))
+      (div :toggle (cell= (active? "#/home" route))
+       (form :class "ui large form"
+             :method "POST"  
+            :action "#/results"
+             
+             (div :class "field"
+                  (label "Da")
+                  (input
+                   :name "da"
+                   :placeholder "Da"
+                   :type "text"))
+             (div :class "field"
+                  (label "A")
+                  (input
+                   :name "a"
+                   :placeholder "A"
+                   :type "text"))
+             (div :class "field"
+                  (label "Data")
+                  (input
+                   :name "data"
+                   :placeholder "data"
+                   :type "text"))
+                         (div :class "field"
+                  (label "Ora")
+                  (input
+                   :click
+                     (fn [ev]
+                     ;(.modal (js/$ ".ui.basic.modal") "show")
+                       (swap! dimmer-state not)
+                       )
+                   :name "ora"
+                   :placeholder "ora"
+                   :type "text")) 
+             (button
+              :class "large ui button right floated"
+              :type "submit"
+              (str "Submit")))
+       )
+      ((div :toggle (cell= (active? "#/results" route)))
+         (div :class "ui big selection celled list"
+              (div :class "item"
+                   (img :class "ui avatar image" :src "/images/avatar/small/helen.jpg")
+                   (div :class "content"
+                        (div :class "header" (str "Snickerdoodle"))
+                        (str "An excellent companion")))
+              (div :class "item"
+                   (img :class "ui avatar image" :src "/images/avatar/small/daniel.jpg")
+                   (div :class "content"
+                        (div :class "header" (str "Poodle"))
+                        (str "A poodle, its pretty basic")))
+              (div :class "item"
+                   (img :class "ui avatar image" :src "/images/avatar/small/daniel.jpg")
+                   (div :class "content"
+                        (div :class "header" (str "Paulo"))
+                        (str "He's also a dog")))))
+      (picking/datepicker dimmer-state)
+      )))
