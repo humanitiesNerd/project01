@@ -1,6 +1,6 @@
 (page "index.html"
       (:require [exicon.semantic-ui :as semantic]
-                [project0.semanticdatetimepicker :as picking]
+               
                 )
       )
 
@@ -37,17 +37,17 @@
 
 (defc= dimmer-styles
   (if dimmer-state
-    {:display "block ! important"}
+    {:display "block !important"}
     {:display "block"}))
 
 (defn datepicker []
   ((div :class "ui dimmer modals page transition")
    :class dimmer-classes
-   :css dimmer-styles
+   ;:css dimmer-styles
    
    ((div :class "ui basic modal scrolling transition")
     :class dimmer-classes
-    :css dimmer-styles
+    ;:css dimmer-styles
             (i :class "close icon"
                :click (fn [ev] (swap! dimmer-state not)))
             (div :class "header"
