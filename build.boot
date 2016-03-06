@@ -29,9 +29,11 @@
     (from-cljsjs :profile :development)
     (sift :to-resource #{#"semantic-ui.inc.css"})
     (sift :move {#"^semantic-ui.inc.css$" "semantic-ui.css"})
+    (sift :to-resource #{#"themes"})
     (hoplon)
     (reload)
-    (cljs)
+    (cljs :optimizations :none
+          :source-map true)
     (serve :port 8000)))
 
 (deftask prod
