@@ -1,7 +1,7 @@
 (page "index.html"
       (:require [exicon.semantic-ui :as semantic]
                 [project0.datetimepicker :as picking]
-               
+              
                 )
       )
 
@@ -57,43 +57,11 @@
         (div (str "This page uses JavaScript "
                   "but it looks like you have it turned off.")))
       (div :toggle (cell= (active? "#/home" route))
-       (form :class "ui large form"
-             :method "POST"  
-            :action "#/results"
-             
-             (div :class "field"
-                  (label "Da")
-                  (input
-                   :name "da"
-                   :placeholder "Da"
-                   :type "text"))
-             (div :class "field"
-                  (label "A")
-                  (input
-                   :name "a"
-                   :placeholder "A"
-                   :type "text"))
-             (div :class "field"
-                  (label "Data")
-                  (input
-                   :name "data"
-                   :placeholder "data"
-                   :type "text"))
-                         (div :class "field"
-                  (label "Ora")
-                  (input
-                   :click
-                     (fn [ev]
-                     ;(.modal (js/$ ".ui.basic.modal") "show")
-                       (swap! dimmer-state not)
-                       )
-                   :name "ora"
-                   :placeholder "ora"
-                   :type "text")) 
-             (button
-              :class "large ui button right floated"
-              :type "submit"
-              (str "Submit")))
+
+           (picking/my-form dimmer-state)
+           
+
+           
        )
       ((div :toggle (cell= (active? "#/results" route)))
          (div :class "ui big selection celled list"
