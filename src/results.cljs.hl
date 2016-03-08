@@ -1,0 +1,23 @@
+(ns project0.results)
+
+
+
+(defn results []
+  (div :class "ui big selection celled list"
+       (div :class "item"
+            (img :class "ui avatar image" :src "/images/avatar/small/helen.jpg")
+            (div :class "content"
+                 (div :class "header" (str "Snickerdoodle"))
+                 (str "An excellent companion")))
+       (div :class "item"
+            (img :class "ui avatar image" :src "/images/avatar/small/daniel.jpg")
+            (div :class "content"
+                 (div :class "header" (str "Poodle"))
+                 (str "A poodle, its pretty basic")))
+       (div :class "item"
+            (img :class "ui avatar image" :src "/images/avatar/small/daniel.jpg")
+            (div :class "content"
+                 (div :class "header" (str "Paulo"))
+                 (str "He's also a dog")))))
+
+
