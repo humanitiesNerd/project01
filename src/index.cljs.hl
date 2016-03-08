@@ -2,7 +2,7 @@
       (:require [exicon.semantic-ui :as semantic]
                 [project0.datetimepicker :as picking]
                 [project0.results :as results]
-              
+                [project0.boilerplate :as boilerplate]
                 )
       )
 
@@ -32,40 +32,15 @@
   )
 
 
-
-
-(defelem viewport [attr kids]
-  (html-meta :name "viewport"
-             :content (first kids)))
-
-(defn setup []
-  [(viewport "width=device-width, initial-scale=1.0")
-   (html-meta
-     :content "https://twitter.com/catonano"
-     :name "author")])
-
-(html
-  :lang "it"
-  (head
-    (html-meta :charset "utf-8")
-    (setup)
-    (title "Project01")
-    (link :href "/semantic-ui.css" :rel "stylesheet"))
-
-  (body :class body-classes :css body-styles
-    (div       
-      (noscript
-        (div (str "This page uses JavaScript "
-                  "but it looks like you have it turned off.")))
-      (div :toggle (cell= (active? "#/home" route))
-
-           (picking/my-form dimmer-state)
-           
-
-           
-           )
-      ((div :toggle (cell= (active? "#/results" route)))
-       (results/results))
-    
-      (picking/datepicker dimmer-state)
-      )))
+(boilerplate/page 
+ (body :class body-classes :css body-styles
+       (div       
+        (noscript
+         (div (str "This page uses JavaScript "
+                   "but it looks like you have it turned off.")))
+        (div :toggle (cell= (active? "#/home" route))
+             (picking/my-form dimmer-state))
+        ((div :toggle (cell= (active? "#/results" route)))
+         (results/results))
+        (picking/datepicker dimmer-state)
+        )))

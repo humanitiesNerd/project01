@@ -1,0 +1,25 @@
+(ns project0.boilerplate)
+
+
+(defelem viewport [attr kids]
+  (html-meta :name "viewport"
+             :content (first kids)))
+
+(defn setup []
+  [(viewport "width=device-width, initial-scale=1.0")
+   (html-meta
+     :content "https://twitter.com/catonano"
+     :name "author")])
+
+ 
+(defn page [page-body]
+  (html
+   :lang "it"
+   (head
+    (html-meta :charset "utf-8")
+    (setup)
+    (title "Project01")
+    (link :href "/semantic-ui.css" :rel "stylesheet"))
+   page-body
+   )
+  )
