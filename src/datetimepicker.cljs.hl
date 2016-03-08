@@ -1,0 +1,47 @@
+(ns project0.datetimepicker
+  ;(:require [cljs-time.core :as time])
+  )
+
+
+(defn datepicker [dimmer-state]
+
+  (let [dimmer-classes (cell=  {:visible dimmer-state
+                                :active dimmer-state
+                                :hidden (not dimmer-state)}
+                               )
+        dimmer-styles (cell= (if dimmer-state
+                               {:height "300px"}
+                               {:height nil}))
+        ]
+    
+
+
+
+
+    ((div :class "ui dimmer modals page transition")
+     :class dimmer-classes
+                                        ;:css dimmer-styles
+   
+     ((div :class "ui basic modal scrolling transition")
+      :class dimmer-classes
+                                        ;:css dimmer-styles
+      (i :class "close icon"
+         :click (fn [ev] (swap! dimmer-state not)))
+      (div :class "header"
+           "Archive Old Messages")
+      (div :class "image content"
+           (div :class "image"
+                (i :class "archive icon"))
+           (div :class "description"
+                (p
+                 "Your inbox is getting full, would you like us to enable automatic archiving of old messages?")))
+      (div :class "actions"
+           (div :class "two fluid ui inverted buttons"
+                (div :class "ui red basic inverted button"
+                     (i :class "remove icon"
+                        "No"))
+                (div :class "ui green basic inverted button"
+                     (i :class "checkmark icon")
+                     "Yes")))))))
+  
+
