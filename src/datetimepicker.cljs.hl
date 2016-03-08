@@ -3,6 +3,15 @@
   )
 
 
+(defelem tabs-deck[attr kids]
+  ((div :class "ui top attached tabular menu") attr kids)
+  )
+
+;"ui bottom attached active tab inverted segment"
+
+(defelem item [attr kids]
+  ((div :class "item") attr kids))
+
 (defn datepicker [dimmer-state]
 
   (let [dimmer-classes (cell=  {:visible dimmer-state
@@ -19,16 +28,23 @@
 
 
     ((div :class "ui dimmer modals page transition")
-     :class dimmer-classes
-                                        ;:css dimmer-styles
+     :class dimmer-classes ;:css dimmer-styles
    
      ((div :class "ui basic modal scrolling transition")
-      :class dimmer-classes
-
-                                        ;:css dimmer-styles
+      :class dimmer-classes ;:css dimmer-styles
 
 
-
+      ((tabs-deck ) :class "inverted"
+       ((item) :class "active" "Tab" )
+       ((item) "Second tab")
+       )
+      (div :class "ui bottom attached active tab inverted segment"
+           (p "Lorem Ipsum")
+           (p "di qua e di la")
+           )
+      (div :class "ui bottom attached tab inverted segment"
+           (p "ambarabba")
+           (p "cicci cocco"))
 
 
 (comment
@@ -48,7 +64,7 @@
                 (div :class "ui red basic inverted button"
                      (i :class "remove icon"
                         "No"))
-                (div :class "ui green basic inverted button"
+                 (div :class "ui green basic inverted button"
                      (i :class "checkmark icon")
                      "Yes")))
 
