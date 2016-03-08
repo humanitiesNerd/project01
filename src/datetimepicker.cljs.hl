@@ -24,7 +24,15 @@
    
      ((div :class "ui basic modal scrolling transition")
       :class dimmer-classes
+
                                         ;:css dimmer-styles
+
+
+
+
+
+
+      
       (i :class "close icon"
          :click (fn [ev] (swap! dimmer-state not)))
       (div :class "header"
@@ -42,8 +50,27 @@
                         "No"))
                 (div :class "ui green basic inverted button"
                      (i :class "checkmark icon")
-                     "Yes")))))))
-  
+                     "Yes"))))
+
+
+
+
+
+
+
+
+
+
+
+
+     )))
+
+
+
+
+
+
+
 
 (defn my-form [dimmer-state]
   (form :class "ui large form"
