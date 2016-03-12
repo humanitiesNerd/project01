@@ -3,18 +3,21 @@
   )
 
 
-(defelem tabs-deck[attr kids]
+(defelem tabs [attr kids]
   ((div :class "ui top attached tabular menu") attr kids)
   )
 
 ;"ui bottom attached active tab inverted segment"
 
-(defelem item [attr kids]
-  ((div :class "item") attr kids))
+(defelem tab [{:keys [state] :as attr} kids]
+  ((div :class "item"
+        ) :class (cell= {:active state})
+   (dissoc attr :state) kids)
+  )
 
 (defn datepicker [dimmer-state]
-
-  (let [dimmer-classes (cell=  {:visible dimmer-state
+  (let [selected-tab (cell :partenza)
+        dimmer-classes (cell=  {:visible dimmer-state
                                 :active dimmer-state
                                 :hidden (not dimmer-state)}
                                )
@@ -22,64 +25,30 @@
                                {:height "300px"}
                                {:height nil}))
         ]
-    
-
-
-
-
     ((div :class "ui dimmer modals page transition")
      :class dimmer-classes ;:css dimmer-styles
-   
      ((div :class "ui basic modal scrolling transition")
       :class dimmer-classes ;:css dimmer-styles
 
+      ((tabs ) :class "inverted"
 
-      ((tabs-deck ) :class "inverted"
-       ((item) :class "active" "Tab" )
-       ((item) "Second tab")
+       ((tab
+         :state (cell= (= selected-tab :partenza)))
+        :click (fn [ev] (swap! selected-tab (fn [_] :partenza)))
+        "Partenza" )
+
+       ((tab
+         :state (cell= (= selected-tab :arrivo)))
+        :click (fn [ev] (swap! selected-tab (fn [_] :arrivo)))
+        "Arrivo")
        )
+      
       (div :class "ui bottom attached active tab inverted segment"
-           (p "Lorem Ipsum")
-           (p "di qua e di la")
+           (p "Time slider")
+           
            )
-      (div :class "ui bottom attached tab inverted segment"
-           (p "ambarabba")
-           (p "cicci cocco"))
-
-
-(comment
-      
-      (i :class "close icon"
-         :click (fn [ev] (swap! dimmer-state not)))
-      (div :class "header"
-           "Archive Old Messages")
-      (div :class "image content"
-           (div :class "image"
-                (i :class "archive icon"))
-           (div :class "description"
-                (p
-                 "Your inbox is getting full, would you like us to enable automatic archiving of old messages?")))
-      (div :class "actions"
-           (div :class "two fluid ui inverted buttons"
-                (div :class "ui red basic inverted button"
-                     (i :class "remove icon"
-                        "No"))
-                 (div :class "ui green basic inverted button"
-                     (i :class "checkmark icon")
-                     "Yes")))
-
-)
-
-
-
-
-
-
-
-      
-
-
-      ))))
+      ))
+    ))
 
 
 
