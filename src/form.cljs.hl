@@ -1,14 +1,12 @@
-(ns project0.my-form
+(ns project0.forms
 )
 
 
 
-(defn my-form [dimmer-state]
-  
+(defn main-form [dimmer-state]
   (form :class "ui large form"
         :method "POST"  
         :action "#/results"
-        
         (div :class "field"
              (label "Da")
              (input
@@ -18,30 +16,18 @@
         (div :class "field"
              (label "A")
              (input
+              ;(.modal (js/$ ".ui.basic.modal") "show")
+              ;:click (fn [_] (swap! dimmer-state not))
               :name "a"
               :placeholder "A"
               :type "text"))
-        (div :class "field"
-             (label "Data")
-             (input
-              :name "data"
-              :placeholder "data"
-              :type "text"))
-        (div :class "field"
-             (label "Ora")
-             (input
-              :click
-              (fn [ev]
-                ;(.modal (js/$ ".ui.basic.modal") "show")
-                (swap! dimmer-state not)
-                )
-              :name "ora"
-              :placeholder "ora"
-              :type "text")) 
+        (div :class "ui container center aligned"
+             (div :class "ui steps"
+                  (div :class "step"
+                       :click (fn [_] (swap! dimmer-state not))
+                       "Adesso")))
+        
         (button
          :class "large ui button right floated"
          :type "submit"
-         (str "Submit")))
-  
-  
-  )
+         (str "Cerca i percorsi"))))

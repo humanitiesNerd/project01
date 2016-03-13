@@ -3,7 +3,7 @@
                 [project0.datetimepicker :as picking]
                 [project0.results :as results]
                 [project0.boilerplate :as boilerplate]
-                [project0.my-form :as my-form]
+                [project0.forms :as forms]
                 )
       )
 
@@ -40,7 +40,7 @@
          (div (str "This page uses JavaScript "
                    "but it looks like you have it turned off.")))
         (div :toggle (cell= (active? "#/home" route))
-             (my-form/my-form dimmer-state))
+             (forms/main-form dimmer-state))
         ((div :toggle (cell= (active? "#/results" route)))
          (results/results)
          )
