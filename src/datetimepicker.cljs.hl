@@ -9,11 +9,15 @@
 
 ;"ui bottom attached active tab inverted segment"
 
-(defelem tab [{:keys [state] :as attr} kids]
-  ((div :class "item"
-        ) :class (cell= {:active state})
+(defelem tab-trigger [{:keys [state] :as attr} kids]
+  ((div :class "item")
+   :class (cell= {:active state})
    (dissoc attr :state) kids)
   )
+
+(defelem tab-content [attr kids]
+  (div :class "ui bottom attached active tab segment")
+  attr kids)
 
 (defn datepicker [dimmer-state]
   (let [selected-tab (cell :partenza)
@@ -32,67 +36,28 @@
 
       ((tabs ) :class "inverted"
 
-       ((tab
+       ((tab-trigger
          :state (cell= (= selected-tab :partenza)))
         :click (fn [ev] (swap! selected-tab (fn [_] :partenza)))
         "Partenza" )
 
-       ((tab
+       ((tab-trigger
          :state (cell= (= selected-tab :arrivo)))
         :click (fn [ev] (swap! selected-tab (fn [_] :arrivo)))
         "Arrivo")
        )
       
-      (div :class "ui bottom attached active tab inverted segment"
-           (p "Time slider")
-           
-           )
+      (tab-content :class "inverted"
+                   (p "Time slider")
+
+                   
+                   
+                   (div :class "ui celled center aligned grid"
+                        (div :class "two wide column"
+                             "ieri")
+                        (div :class "ten wide column"
+                             "oggi")
+                        (div :class "two wide column"
+                             "domani")))
       ))
     ))
-
-
-
-
-
-
-
-
-(defn my-form [dimmer-state]
-  (form :class "ui large form"
-        :method "POST"  
-        :action "#/results"
-        
-        (div :class "field"
-             (label "Da")
-             (input
-              :name "da"
-              :placeholder "Da"
-              :type "text"))
-        (div :class "field"
-             (label "A")
-             (input
-              :name "a"
-              :placeholder "A"
-              :type "text"))
-        (div :class "field"
-             (label "Data")
-             (input
-              :name "data"
-              :placeholder "data"
-              :type "text"))
-        (div :class "field"
-             (label "Ora")
-             (input
-              :click
-              (fn [ev]
-                ;(.modal (js/$ ".ui.basic.modal") "show")
-                (swap! dimmer-state not)
-                )
-              :name "ora"
-              :placeholder "ora"
-              :type "text")) 
-        (button
-         :class "large ui button right floated"
-         :type "submit"
-         (str "Submit")))
-  )
