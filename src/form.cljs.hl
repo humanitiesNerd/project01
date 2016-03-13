@@ -1,0 +1,47 @@
+(ns project0.my-form
+)
+
+
+
+(defn my-form [dimmer-state]
+  
+  (form :class "ui large form"
+        :method "POST"  
+        :action "#/results"
+        
+        (div :class "field"
+             (label "Da")
+             (input
+              :name "da"
+              :placeholder "Da"
+              :type "text"))
+        (div :class "field"
+             (label "A")
+             (input
+              :name "a"
+              :placeholder "A"
+              :type "text"))
+        (div :class "field"
+             (label "Data")
+             (input
+              :name "data"
+              :placeholder "data"
+              :type "text"))
+        (div :class "field"
+             (label "Ora")
+             (input
+              :click
+              (fn [ev]
+                ;(.modal (js/$ ".ui.basic.modal") "show")
+                (swap! dimmer-state not)
+                )
+              :name "ora"
+              :placeholder "ora"
+              :type "text")) 
+        (button
+         :class "large ui button right floated"
+         :type "submit"
+         (str "Submit")))
+  
+  
+  )
