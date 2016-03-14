@@ -23,12 +23,10 @@
   attr kids)
 
 (defelem days-slider [{:keys [selected-daytime] :as attr} kids]
-  (let [today (time/day (time/now))
-        tomorrow (time/day (time/plus (time/now) (time/days 1)))
-        ;selcted-day (time/day selected-daytime)
+  (let [time-of-choice (.clone @selected-daytime)
         selected-day-cell
-        (cell= (cond (= (time/day selected-daytime) today) "oggi"
-                     (= (time/day selected-daytime) tomorrow) "domani"
+        (cell= (cond (time/= selected-daytime time-of-choice) "oggi"
+                     (time/= selected-daytime (time/plus time-of-choice (time/days 1))) "domani"
                      :else "ciao" ;TODO formattiamo la data
                      ))
         ]
