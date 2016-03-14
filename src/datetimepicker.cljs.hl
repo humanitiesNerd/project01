@@ -1,5 +1,8 @@
 (ns project0.datetimepicker
-  ;(:require [cljs-time.core :as time])
+  (:require [cljs-time.core :as time]
+            [cljs-time.format :as f]
+            )
+  
   )
 
 
@@ -19,8 +22,36 @@
   (div :class "ui bottom attached active tab segment")
   attr kids)
 
-(defn datepicker [dimmer-state]
-  (let [selected-tab (cell :partenza)
+(defelem days-slider [{:keys [selected-daytime] :as attr} kids]
+  (let [today (time/day (time/now))
+        tomorrow (time/day (time/plus (time/now) (time/days 1)))
+        ;selcted-day (time/day selected-daytime)
+        selected-day-cell
+        (cell= (cond (= (time/day selected-daytime) today) "oggi"
+                     (= (time/day selected-daytime) tomorrow) "domani"
+                     :else "ciao" ;TODO formattiamo la data
+                     ))
+        ]
+    
+  (div :class "ui celled center aligned grid"
+       (div :class "two wide column"
+            "ieri")
+       (div :class "ten wide column"
+            (text "~{selected-day-cell}"))
+       (div :class "two wide column"
+            :click
+            (fn [_]
+              (swap!
+               selected-daytime
+               #(time/plus %1 (time/days 1))))
+            "avanti"))
+  )
+  )
+
+
+(defn datepicker [dimmer-state selected-daytime]
+  (let [
+        selected-tab (cell :partenza)
         dimmer-classes (cell=  {:visible dimmer-state
                                 :active dimmer-state
                                 :hidden (not dimmer-state)}
@@ -51,13 +82,10 @@
                    (p "Time slider")
 
                    
-                   
-                   (div :class "ui celled center aligned grid"
-                        (div :class "two wide column"
-                             "ieri")
-                        (div :class "ten wide column"
-                             "oggi")
-                        (div :class "two wide column"
-                             "domani")))
-      ))
-    ))
+                   (days-slider :selected-daytime selected-daytime)            
+
+                   )
+      )
+
+     ))
+    )
