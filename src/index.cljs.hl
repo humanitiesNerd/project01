@@ -3,8 +3,9 @@
                 [project0.datetimepicker :as picking]
                 [project0.results :as results]
                 [project0.boilerplate :as boilerplate]
-                [project0.forms :as forms]
-                [cljs-time.core :as time]
+                [project0.forms :as forms]       
+                [cljsjs.moment]
+                [cljsjs.moment.locale.it]
                 )
       )
 
@@ -19,7 +20,11 @@
     (= h (subs route 0 (count h)))))
 
 (defc dimmer-state false)
-(defc moment (time/now))
+
+(defc moment (.local (.locale (js/moment) "it")))
+
+(defc= formatted-moment
+  (.format moment "LLL"))
 
 (defc= body-classes
   {:dimmable dimmer-state
@@ -41,9 +46,9 @@
          (div (str "This page uses JavaScript "
                    "but it looks like you have it turned off.")))
         (div :toggle (cell= (active? "#/home" route))
-             (forms/main-form dimmer-state moment))
+             (forms/main-form dimmer-state moment formatted-moment))
         ((div :toggle (cell= (active? "#/results" route)))
          (results/results)
          )
-        (picking/datepicker dimmer-state moment)
+        (picking/datepicker dimmer-state moment formatted-moment)
         )))

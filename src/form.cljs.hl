@@ -1,10 +1,11 @@
 (ns project0.forms
-    (:require [cljs-time.core :as time])
+  (:require [cljs-time.core :as time]
+            [cljs-time.format :as f])
 )
 
+;(def datetime-formatter (f/formatter "yyyyMMdd"))
 
-
-(defn main-form [dimmer-state moment]
+(defn main-form [dimmer-state moment formatted-moment]
   (form :class "ui large form"
         :method "POST"  
         :action "#/results"
@@ -26,7 +27,7 @@
              (div :class "ui steps"
                   (div :class "step"
                        :click (fn [_] (swap! dimmer-state not))
-                       (text  "~{moment}"))))
+                       (text  "~{formatted-moment}"))))
         
         (button
          :class "large ui button right floated"

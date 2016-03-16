@@ -22,17 +22,21 @@
   (div :class "ui bottom attached active tab segment")
   attr kids)
 
-(defelem days-slider [{:keys [selected-daytime] :as attr} kids]
-  (let [time-of-choice (.clone @selected-daytime)
+(defelem days-slider [{:keys [selected-daytime formatted-moment] :as attr} kids]
+  (let [time-of-choice (js/moment @selected-daytime)
         selected-day-cell
-        (cell= (cond (time/= selected-daytime time-of-choice) "oggi"
-                     (time/= selected-daytime (time/plus time-of-choice (time/days 1))) "domani"
-                     :else "ciao" ;TODO formattiamo la data
+        (cell= (cond
+                 (.isSame selected-daytime time-of-choice) "oggi"
+                 (.isSame selected-daytime (.add (js/moment time-of-choice) 1 "days")) "domani"
+                 :else formatted-moment 
                      ))
         ]
     
   (div :class "ui celled center aligned grid"
        (div :class "two wide column"
+            :click (fn [_] (swap!
+                            selected-daytime
+                            #(.subtract (js/moment %1) 1 "d")))
             "ieri")
        (div :class "ten wide column"
             (text "~{selected-day-cell}"))
@@ -41,13 +45,14 @@
             (fn [_]
               (swap!
                selected-daytime
-               #(time/plus %1 (time/days 1))))
+               #(.add (js/moment %1) 1 "days")))
             "avanti"))
+  
   )
   )
 
 
-(defn datepicker [dimmer-state selected-daytime]
+(defn datepicker [dimmer-state selected-daytime formatted-moment]
   (let [
         selected-tab (cell :partenza)
         dimmer-classes (cell=  {:visible dimmer-state
@@ -80,7 +85,7 @@
                    (p "Time slider")
 
                    
-                   (days-slider :selected-daytime selected-daytime)            
+                   (days-slider :selected-daytime selected-daytime :formatted-moment formatted-moment)            
 
                    )
       )
