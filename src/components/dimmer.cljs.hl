@@ -18,7 +18,7 @@
    ((div :class "ui basic modal scrolling transition")
     :class dimmer-classes ;:css dimmer-styles
     
-    ;(dissoc attr :dimmer-state)
+    (dissoc attr :dimmer-state)
     kids))
 
   ))
