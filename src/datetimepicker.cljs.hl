@@ -30,14 +30,20 @@
                  (.isSame selected-daytime (.add (js/moment time-of-choice) 1 "days")) "domani"
                  :else formatted-moment 
                      ))
-        ]
+        back-arrow-state
+        (cell= {:hidden (= selected-day-cell "oggi")})]
     
   (div :class "ui celled center aligned grid"
-       (div :class "two wide column"
-            :click (fn [_] (swap!
-                            selected-daytime
-                            #(.subtract (js/moment %1) 1 "d")))
-            "ieri")
+       ((div :class "two wide column") 
+           
+        ((i  :click
+             (fn [_] (swap!
+                      selected-daytime
+                      #(.subtract (js/moment %1) 1 "d")))
+             :class "caret left icon") :class back-arrow-state )
+        )
+
+       
        (div :class "ten wide column"
             (text "~{selected-day-cell}"))
        (div :class "two wide column"
