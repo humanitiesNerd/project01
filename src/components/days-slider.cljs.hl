@@ -1,0 +1,41 @@
+(ns project0.components.days-slider)
+
+
+(defelem days-slider [{:keys [selected-daytime formatted-moment] :as attr} kids]
+  (let [time-of-choice (js/moment @selected-daytime)
+        selected-day-cell
+        (cell= (cond
+                 (.isSame selected-daytime time-of-choice) "oggi"
+                 (.isSame selected-daytime (.add (js/moment time-of-choice) 1 "days")) "domani"
+                 :else formatted-moment 
+                     ))
+        left-caret-visibility
+        (cell= (if (= selected-day-cell "oggi")
+               {:visibility "hidden"}
+               {:visibility "visible"}))]
+    
+  (div :class "ui celled center aligned grid"
+       ((div :class "two wide column") 
+           
+        ((i  :click
+             (fn [_] (swap!
+                      selected-daytime
+                      #(.subtract (js/moment %1) 1 "d")))
+             :class "caret left icon") :css left-caret-visibility )
+        )
+
+       
+       (div :class "ten wide column"
+            (text "~{selected-day-cell}"))
+
+       (div :class "two wide column"
+            ((i  :click
+                 (fn [_] (swap!
+                          selected-daytime
+                          #(.add (js/moment %1) 1 "d")))
+                 :class "caret right icon")))
+       )
+       )
+  
+  
+  )

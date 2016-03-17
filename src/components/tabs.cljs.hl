@@ -1,0 +1,19 @@
+(ns project0.components.tabs
+  )
+
+
+(defelem tabs [attr kids]
+  ((div :class "ui top attached tabular menu") attr kids)
+  )
+
+;"ui bottom attached active tab inverted segment"
+
+(defelem tab-trigger [{:keys [state] :as attr} kids]
+  ((div :class "item")
+   :class (cell= {:active state})
+   (dissoc attr :state) kids)
+  )
+
+(defelem tab-content [attr kids]
+  (div :class "ui bottom attached active tab segment")
+  attr kids)

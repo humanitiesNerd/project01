@@ -1,105 +1,38 @@
 (ns project0.datetimepicker
   (:require [cljs-time.core :as time]
             [cljs-time.format :as f]
+            [project0.components.tabs :as tabs]
+            [project0.components.dimmer :refer [dimmer]]
+            [project0.components.days-slider :refer [days-slider]]
             )
   
   )
-
-
-(defelem tabs [attr kids]
-  ((div :class "ui top attached tabular menu") attr kids)
-  )
-
-;"ui bottom attached active tab inverted segment"
-
-(defelem tab-trigger [{:keys [state] :as attr} kids]
-  ((div :class "item")
-   :class (cell= {:active state})
-   (dissoc attr :state) kids)
-  )
-
-(defelem tab-content [attr kids]
-  (div :class "ui bottom attached active tab segment")
-  attr kids)
-
-(defelem days-slider [{:keys [selected-daytime formatted-moment] :as attr} kids]
-  (let [time-of-choice (js/moment @selected-daytime)
-        selected-day-cell
-        (cell= (cond
-                 (.isSame selected-daytime time-of-choice) "oggi"
-                 (.isSame selected-daytime (.add (js/moment time-of-choice) 1 "days")) "domani"
-                 :else formatted-moment 
-                     ))
-        left-caret-visibility
-        (cell= (if (= selected-day-cell "oggi")
-               {:visibility "hidden"}
-               {:visibility "visible"}))]
-    
-  (div :class "ui celled center aligned grid"
-       ((div :class "two wide column") 
-           
-        ((i  :click
-             (fn [_] (swap!
-                      selected-daytime
-                      #(.subtract (js/moment %1) 1 "d")))
-             :class "caret left icon") :css left-caret-visibility )
-        )
-
-       
-       (div :class "ten wide column"
-            (text "~{selected-day-cell}"))
-
-       (div :class "two wide column"
-            ((i  :click
-                 (fn [_] (swap!
-                          selected-daytime
-                          #(.add (js/moment %1) 1 "d")))
-                 :class "caret right icon")))
-       )
-       )
   
-  
-  )
-  
-
-
 (defn datepicker [dimmer-state selected-daytime formatted-moment]
-  (let [
-        selected-tab (cell :partenza)
-        dimmer-classes (cell=  {:visible dimmer-state
-                                :active dimmer-state
-                                :hidden (not dimmer-state)}
-                               )
-        dimmer-styles (cell= (if dimmer-state
-                               {:height "300px"}
-                               {:height nil}))
-        ]
-    ((div :class "ui dimmer modals page transition")
-     :class dimmer-classes ;:css dimmer-styles
-     ((div :class "ui basic modal scrolling transition")
-      :class dimmer-classes ;:css dimmer-styles
+    (let [selected-tab (cell :partenza)]
+      (dimmer :dimmer-state dimmer-state
+      ((tabs/tabs ) :class "inverted"
 
-      ((tabs ) :class "inverted"
-
-       ((tab-trigger
+       ((tabs/tab-trigger
          :state (cell= (= selected-tab :partenza)))
         :click (fn [ev] (swap! selected-tab (fn [_] :partenza)))
         "Partenza" )
 
-       ((tab-trigger
+       ((tabs/tab-trigger
          :state (cell= (= selected-tab :arrivo)))
         :click (fn [ev] (swap! selected-tab (fn [_] :arrivo)))
         "Arrivo")
        )
-      
-      (tab-content :class "inverted"
+      (tabs/tab-content :class "inverted"
                    (p "Time slider")
 
+                   (select :class "inverted ui dropdown"
+                           (option :value "" "Gender")
+                           (option :value "1" "Male")
+                           (option :value "0" "Female")
+                           )
                    
-                   (days-slider :selected-daytime selected-daytime :formatted-moment formatted-moment)            
-
-                   )
-      )
-
-     ))
-    )
+                   (days-slider
+                    :selected-daytime selected-daytime
+                    :formatted-moment formatted-moment))
+                   )))
