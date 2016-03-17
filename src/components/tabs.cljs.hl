@@ -8,10 +8,12 @@
 
 ;"ui bottom attached active tab inverted segment"
 
-(defelem tab-trigger [{:keys [state] :as attr} kids]
-  ((div :class "item")
-   :class (cell= {:active state})
-   (dissoc attr :state) kids)
+(defelem tab-trigger [{:keys [key selected-tab] :as attr} kids]
+  (let [state (cell= (= selected-tab key))]
+    ((div :class "item")
+     :class (cell= {:active state})
+     :click (fn [ev] (swap! selected-tab (fn [_] key)))
+     (dissoc attr :key :selected-tab) kids))
   )
 
 (defelem tab-content [attr kids]
