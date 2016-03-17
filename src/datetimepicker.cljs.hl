@@ -1,6 +1,6 @@
 (ns project0.datetimepicker
-  (:require [cljs-time.core :as time]
-            [cljs-time.format :as f]
+  (:require ;[cljs-time.core :as time]
+            ;[cljs-time.format :as f]
             [project0.components.tabs :as tabs]
             [project0.components.dimmer :refer [dimmer]]
             [project0.components.days-slider :refer [days-slider]]
