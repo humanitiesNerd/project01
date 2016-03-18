@@ -2,33 +2,33 @@
   (:require [project0.components.tabs :as tabs]
             [project0.components.dimmer :refer [dimmer]]
             [project0.components.days-slider :refer [days-slider]]
-            )
-  
-  )
+            ))
   
 (defn datepicker [dimmer-state selected-daytime formatted-moment]
     (let [selected-tab (cell :partenza)]
       (dimmer :dimmer-state dimmer-state
-      (tabs/tabs  :class "inverted"
+              (tabs/tabs  :class "inverted"
 
-       (tabs/tab-trigger
-         :key :partenza
-         :selected-tab selected-tab
-         "Partenza" )
-
-       (tabs/tab-trigger
-        :key :arrivo
-        :selected-tab selected-tab
-        "Arrivo")
-       )
-      (tabs/tab-content :class "inverted"
-                   (select :class "inverted ui dropdown"
-                           (option :value "" "Gender")
-                           (option :value "1" "Male")
-                           (option :value "0" "Female")
-                           )
-                   
-                   (days-slider
-                    :selected-daytime selected-daytime
-                    :formatted-moment formatted-moment))
-                   )))
+                          (tabs/tab-trigger
+                           :key :partenza
+                           :selected-tab selected-tab
+                           "Partenza" )
+                          
+                          (tabs/tab-trigger
+                           :key :arrivo
+                           :selected-tab selected-tab
+                           "Arrivo")
+                          )
+              (tabs/tab-content :class "inverted"
+                                (select :class "inverted ui dropdown"
+                                        (option
+                                         :value
+                                         ""
+                                         "Time")
+                                        (option :value "1" "Male")
+                                        (option :value "0" "Female")
+                                        )
+                                
+                                (days-slider
+                                 :selected-daytime selected-daytime
+                                 :formatted-moment formatted-moment)))))
