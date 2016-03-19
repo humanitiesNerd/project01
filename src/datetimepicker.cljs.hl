@@ -21,8 +21,13 @@
                            "Arrivo")
                           )
               (tabs/tab-content :class "inverted"
-                                (hours-selector selected-daytime)
-                                (minutes-selector selected-daytime)
+                                (div :class "ui center aligned grid"
+                                     (div :class "sixteen wide column"
+                                          (hours-selector selected-daytime)
+                                          (minutes-selector selected-daytime)))
+                                
+                                
+
                                 (days-slider
                                  :selected-daytime selected-daytime
                                  :formatted-moment formatted-moment))
