@@ -1,8 +1,11 @@
 (ns project0.components.time-fields)
 
 (defn hours-options [sd]
-    (for [h (range 25)]
-      (option :value h (str h))))
+  (for [h (range 25)]
+    (option :value h (str h)))
+  )
+
+ ;(enable-console-print!)
 
 (defn hours-selector [sd]
   (select :class "inverted ui dropdown"
@@ -10,9 +13,12 @@
            :value
            (str (.hour @sd))
            "ora")
-          (hours-options sd)
-          )
-)
+          :change
+          (fn [new-hour]
+            (swap! sd
+                   (fn [old-sd]
+                     (.hours (js/moment old-sd) @new-hour))))
+          (hours-options sd)))
 
 (defn minutes-selector [sd]
   (let [now (.minute @sd)]
@@ -21,12 +27,14 @@
              :value
              (str (.minute @sd))
              "minuti")
+            :change
+            (fn [new-minute]
+              (swap! sd
+                     (fn [old-sd]
+                       (.minute (js/moment old-sd) @new-minute))))
             (option :value "00" "00")
             (option :value "10" "10")
             (option :value "20" "20")
             (option :value "30" "30")
             (option :value "40" "40")
-            (option :value "50" "50")
-            
-            ))
-)
+            (option :value "50" "50"))))
