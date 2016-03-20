@@ -41,6 +41,24 @@
   "Build project01 for production deployment."
   []
   (comp
-    (hoplon)
-    (cljs :optimizations :advanced)
-    (prerender)))
+   (from-cljsjs :profile :production)
+   (sift :to-resource #{#"semantic-ui.min.inc.css"})
+   (sift :move {#"^semantic-ui.min.inc.css$" "semantic-ui.css"})
+   (sift :to-resource #{#"themes"})
+   (hoplon)
+   (cljs :optimizations :advanced)
+   ;(prerender)
+   ))
+
+(deftask make-war
+  "Build a war for deployment"
+  []
+  (comp
+      (from-cljsjs :profile :production)
+      (sift :to-resource #{#"semantic-ui.min.inc.css"})
+      (sift :move {#"^semantic-ui.min.inc.css$" "semantic-ui.css"})
+      (hoplon)
+      (cljs :optimizations :advanced)
+      (uber :as-jars true)
+      ;(web :serve 'castra-notify-chat.handler/app)
+      (war)))
