@@ -33,6 +33,7 @@
                                  :formatted-moment formatted-moment))
               (div :class "actions"
                    (div :class "ui green ok inverted button"
-                        (i :class "checkmark icon")
+                        (i :class "checkmark icon"
+                           :click (fn [_] (swap! dimmer-state not)))
                         "Ok"))
               )))
