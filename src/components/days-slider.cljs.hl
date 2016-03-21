@@ -5,8 +5,8 @@
   (let [time-of-choice (js/moment @selected-daytime)
         selected-day-cell
         (cell= (cond
-                 (.isSame selected-daytime time-of-choice) "oggi"
-                 (.isSame selected-daytime (.add (js/moment time-of-choice) 1 "days")) "domani"
+                 (= (.date (js/moment selected-daytime)) (.date time-of-choice)) "oggi"
+                 (= (.date (js/moment selected-daytime)) (.date (.add (js/moment time-of-choice) 1 "days"))) "domani"
                  :else formatted-moment 
                      ))
         left-caret-visibility
